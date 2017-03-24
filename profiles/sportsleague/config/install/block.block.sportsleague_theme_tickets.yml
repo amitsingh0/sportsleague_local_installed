@@ -1,0 +1,30 @@
+langcode: en
+status: true
+dependencies:
+  content:
+    - 'block_content:basic:7b024967-e482-42a9-9324-8369a67023ed'
+  module:
+    - block_content
+    - system
+  theme:
+    - sportsleague_theme
+id: tickets
+theme: sportsleague_theme
+region: content_bottom
+weight: 2
+provider: null
+plugin: 'block_content:7b024967-e482-42a9-9324-8369a67023ed'
+settings:
+  id: 'block_content:7b024967-e482-42a9-9324-8369a67023ed'
+  label: 'Tickets '
+  provider: block_content
+  label_display: visible
+  status: true
+  info: ''
+  view_mode: full
+visibility:
+  request_path:
+    id: request_path
+    pages: '<front>'
+    negate: false
+    context_mapping: {  }

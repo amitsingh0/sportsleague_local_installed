@@ -1,0 +1,13 @@
+langcode: en
+status: true
+dependencies: {  }
+name: gallery_image
+label: 'Gallery image'
+effects:
+  6fdb3002-2a63-455c-880b-c504b88d3d5a:
+    uuid: 6fdb3002-2a63-455c-880b-c504b88d3d5a
+    id: image_resize
+    weight: 1
+    data:
+      width: 181
+      height: 109

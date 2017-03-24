@@ -1,0 +1,57 @@
+<?php
+/**
+ * @file
+ * Create dummy content for events.
+ */
+
+use \Drupal\node\Entity\Node;
+use \Drupal\menu_link_content\Entity\MenuLinkContent;
+
+/**
+ * Implements hook_install().
+ */
+function sportsleague_events_install() {
+  $events_titles = array(
+    'Euro Olympics.',
+    'Hockey Champions Trophy',
+    'Indian Premier League',
+    'Rugby Union',
+    'Boxing',
+    'Cycling - Tour',
+    'Golf - U.S.',
+    'Formula 1',
+  );
+  $events_images = array(
+    'cycling.jpg',
+    'hockey.jpg',
+    'yuvraj-singh.jpg',
+    'rugby.jpg',
+    'player14.jpg',
+    'cycling1.jpg',
+    'golf.jpg',
+    'formula1.jpg',
+  );
+  foreach ($events_titles as $key => $title) {
+    $output = file_get_contents(drupal_get_path('profile', 'sportsleague') . '/images/' . $events_images[$key]);
+    $file = file_save_data($output, 'public://' . $events_images[$key], FILE_EXISTS_REPLACE);
+    $node = Node::create(array(
+      'type' => 'events',
+      'title' => $title,
+      'uid' => '1',
+      'status' => 1,
+      'path' => '/' . _sportsleague_clean_url_alias($title),
+    ));
+    $node->field_event_date->generateSampleItems(1);
+    $node->body->value = '<p> Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>';
+    $node->body->format = 'full_html';
+    $node->field_event_image->setValue(array('target_id' => $file->id(), 'alt' => $title));
+    $node->save();
+  }
+  // Create Events link.
+  MenuLinkContent::create([
+    'title'      => 'Events',
+    'link'       => ['uri' => 'internal:/events-schedule'],
+    'menu_name'  => 'main',
+    'weight'     => '8',
+  ])->save();
+}

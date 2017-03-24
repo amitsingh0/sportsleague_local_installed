@@ -1,0 +1,24 @@
+langcode: en
+status: true
+dependencies:
+  content:
+    - 'block_content:basic:ae648c58-18e5-4bbe-acc0-7759d4d1e911'
+  module:
+    - block_content
+  theme:
+    - sportsleague_theme
+id: tweetme
+theme: sportsleague_theme
+region: footer_4
+weight: 2
+provider: null
+plugin: 'block_content:ae648c58-18e5-4bbe-acc0-7759d4d1e911'
+settings:
+  id: 'block_content:ae648c58-18e5-4bbe-acc0-7759d4d1e911'
+  label: 'Tweet Me'
+  provider: block_content
+  label_display: visible
+  status: true
+  info: ''
+  view_mode: full
+visibility: {  }

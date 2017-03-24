@@ -1,0 +1,62 @@
+<?php
+/**
+ * @file
+ * Create dummy content for blog.
+ */
+
+use \Drupal\node\Entity\Node;
+use \Drupal\menu_link_content\Entity\MenuLinkContent;
+
+/**
+ * Implements hook_install().
+ */
+function sportsleague_blog_install() {
+  $blog_titles = array(
+    'Candace Parker is playing for Pat Summitt',
+    'English commentator got bummed as Iceland scored',
+    'Poland vs. Portugal Preview & Prediction',
+    'Michael Conforto Might File Grievance Against The New York Mets',
+    'Dwyane Wade open to offers from outside teams',
+    'How important is the England tour for Pakistan?',
+    'Bat, ball and family will sustain cricket',
+    'Why I had pay to watch neutral Tests',
+    'Taking a break from cricket',
+    'Roger Federers next opponent is a Snickers-eating party dude',
+    'Lionel Messi: Argentina forward retires from international football.',
+  );
+  $blog_images = array(
+    'player11.jpg',
+    'player12.jpg',
+    'player13.jpg',
+    'cycling.jpg',
+    'golf.jpg',
+    'player9.jpg',
+    'player15.jpg',
+    'formula1.jpg',
+    'cycling1.jpg',
+    'player1.jpg',
+    'rugby.jpg'    
+  );
+
+  foreach ($blog_titles as $key=>$title) {
+	  
+	$file = file_save_data($output, 'public://' . $blog_images[$key], FILE_EXISTS_REPLACE);
+    $node = Node::create(array(
+      'type' => 'blog',
+      'title' => $title,
+      'uid' => '1',
+      'status' => 1,
+      'path' => '/' . _sportsleague_clean_url_alias($title),
+    ));
+    $node->field_blog_image->setValue(array('target_id' => $file->id(), 'alt' => $title));
+    $node->body->value = 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum is simply dummy text of the printing and typesetting industry';
+    $node->save();
+  }
+  // Create link to Blog page.
+  MenuLinkContent::create([
+    'title'      => 'Blog',
+    'link'       => ['uri' => 'internal:/blog'],
+    'menu_name'  => 'main',
+    'weight'     => 4,
+  ])->save();
+}

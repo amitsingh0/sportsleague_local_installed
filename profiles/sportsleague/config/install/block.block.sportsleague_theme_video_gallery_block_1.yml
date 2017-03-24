@@ -1,0 +1,21 @@
+langcode: en
+status: true
+id: views_block__video_gallery_block_1
+theme: sportsleague_theme
+region: content
+weight: -2
+provider: null
+plugin: 'views_block:video_gallery-block_1'
+settings:
+  id: 'views_block:video_gallery-block_1'
+  label: ''
+  provider: views
+  label_display: visible
+  views_label: ''
+  items_per_page: none
+visibility:
+  request_path:
+    id: request_path
+    pages: '<front>'
+    negate: false
+    context_mapping: {  }

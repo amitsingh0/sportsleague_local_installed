@@ -1,0 +1,41 @@
+<?php
+/**
+ * @file
+ * Create dummy content for news.
+ */
+
+use \Drupal\node\Entity\Node;
+use \Drupal\menu_link_content\Entity\MenuLinkContent;
+
+/**
+ * Implements hook_install().
+ */
+function sportsleague_news_install() {
+  $news_titles = array(
+    'First dummy news',
+    'Second dummy news',
+    'Third dummy news',
+  );
+  $news_images = array('player10.jpg', 'rugby.jpg', 'player18.jpg');
+  foreach ($news_titles as $key => $title) {
+    $output = file_get_contents(drupal_get_path('profile', 'sportsleague') . '/images/' . $news_images[$key]);
+    $file = file_save_data($output, 'public://' . $news_images[$key], FILE_EXISTS_REPLACE);
+    $node = Node::create(array(
+      'type' => 'news',
+      'title' => $title,
+      'uid' => '1',
+      'status' => 1,
+      'path' => '/' . _sportsleague_clean_url_alias($title),
+    ));
+    $node->field_news_image->setValue(array('target_id' => $file->id(), 'alt' => $title));
+    $node->body->value = 'Lorem Ipsum is simply dummy text of the printing and typesetting industry.';
+    $node->save();
+  }
+  // Create News page link.
+  MenuLinkContent::create([
+    'title'      => 'News',
+    'link'       => ['uri' => 'internal:/latest-news'],
+    'menu_name'  => 'main',
+    'weight'     => 3,
+  ])->save();
+}

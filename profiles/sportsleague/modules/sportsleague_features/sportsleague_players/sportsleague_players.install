@@ -1,0 +1,103 @@
+<?php
+/**
+ * @file
+ * Create dummy content for players.
+ */
+
+use \Drupal\taxonomy\Entity\Term;
+use \Drupal\node\Entity\Node;
+use \Drupal\menu_link_content\Entity\MenuLinkContent;
+
+/**
+ * Implements hook_install().
+ */
+function sportsleague_players_install() {
+  // Save team terms.
+  $team_terms = array(
+    'Team A',
+    'Team B',
+    'Team C',
+    'Team D',
+    'Team E',
+    'Team F',
+  );
+  foreach ($team_terms as $term_name) {
+    $values = array(
+      'vid' => 'team',
+      'name' => $term_name,
+      'description' => 'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
+    );
+    $term = Term::create($values);
+    $term->save();
+    $term_id[$term->tid->value] = $term->name->value;
+  }
+  // Create player titles.
+  $players_titles = array(
+    'Team A' => array(
+      'Player 1',
+      'Player 2',
+      'Player 3',
+    ),
+    'Team B' => array(
+      'Player 4',
+      'Player 5',
+      'Player 6',
+    ),
+    'Team C' => array(
+      'Player 7',
+      'Player 8',
+      'Player 9',
+    ),
+    'Team D' => array(
+      'Player 10',
+      'Player 11',
+      'Player 12',
+    ),
+    'Team E' => array(
+      'Player 13',
+      'Player 14',
+      'Player 15',
+    ),
+    'Team F' => array(
+      'Player 16',
+      'Player 17',
+      'Player 18',
+    ),
+  );
+
+  $images_main = array(
+    'Team A' => array('player1.jpg', 'player2.jpg', 'player3.jpg'),
+    'Team B' => array('player4.jpg', 'player5.jpg', 'player6.jpg'),
+    'Team C' => array('player7.jpg', 'player8.jpg', 'player9.jpg'),
+    'Team D' => array('player10.jpg', 'player11.jpg', 'player12.jpg'),
+    'Team E' => array('player13.jpg', 'player14.jpg', 'player15.jpg'),
+    'Team F' => array('player16.jpg', 'player17.jpg', 'player18.jpg'),
+  );
+  foreach ($players_titles as $key => $players_title) {
+    $team = array_search($key, $term_id);
+    foreach ($players_title as $player_key => $players) {
+      $output_main = file_get_contents(drupal_get_path('profile', 'sportsleague') . '/images/' . $images_main[$key][$player_key]);
+      $file_main = file_save_data($output_main, 'public://' . $images_main[$key][$player_key], FILE_EXISTS_REPLACE);
+      $node = Node::create(array(
+        'type' => 'players',
+        'title' => $players,
+        'uid' => '1',
+        'status' => 1,
+        'path' => '/' . _sportsleague_clean_url_alias($players),
+      ));
+      $node->field_player_main_image->setValue(array('target_id' => $file_main->id(), 'alt' => $players));
+      $node->field_team->target_id = $team;
+      $node->body->value = 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum is simply dummy text of the printing and typesetting industry.';
+      $node->save();
+    }
+  }
+  // Create Team link.
+  $link = MenuLinkContent::create([
+    'title'      => 'Teams',
+    'link'       => ['uri' => 'internal:/teams'],
+    'menu_name'  => 'main',
+    'expanded'   => 1,
+    'weight'     => 8,
+  ]);
+  $link->save();
+}

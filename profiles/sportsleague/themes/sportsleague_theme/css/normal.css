@@ -1,0 +1,120 @@
+span a {
+    color:#00003D;
+}
+.col-md-3 .poll h3 {
+    background-color: #0D9790;
+}
+.col-md-9 h3, 
+.col-md-3 .panel-heading h3, 
+.col-md-9 h2, 
+.col-md-3 h2, 
+.row .boxblock h2 {
+	background-color: #25aebf;
+    border-color: #25aebf;
+	color: #FFF;
+}
+input[type="submit"] {
+    background: #B51546;
+    border-color: #B51546;
+}
+input[type="submit"]:hover {
+    background: #d21952;
+    border-color: #d21952;
+}
+/*-----------Default Styling Ends------------*/
+
+
+
+/*-----------Header Styles-------------------*/
+body .navbar {
+    background-color:#25AEBF ;
+    border-bottom: none;
+}
+.flex-direction-nav a {
+    color: #b81007;
+}
+.navbar-inverse .nav .open > a, .navbar-inverse .nav .open > a:hover, 
+.navbar-inverse .nav .open > a:focus,
+.navbar-inverse .navbar-nav > li > a.is-active,
+.navbar-inverse .navbar-nav > li > a:hover,
+.navbar-inverse .dropdown-menu > li > a:hover {
+    background: #B51546;
+}
+body .navbar .container ul li ul li {
+    background-color: #25aebf;
+}
+/*slider styles*/
+.carousel-indicators .active {
+    background-color: #25AEBF;
+    border-color: #25AEBF;
+}
+/*-----------Header Styling Ends-------------*/
+
+
+
+/*-----------Page Styles---------------------*/
+.field--name-field-tags .field__item a:hover {
+    color: #B81007;
+}
+.breadcrumb {
+    border-color: #2296a5;
+    background-color: #25aebf;
+}
+.breadcrumb a {
+    color: #fff;
+}
+#block-sportsleague-theme-content .views-row .views-field-title a {
+    color: #25AEBF;
+    border-bottom-color: #25AEBF;
+}
+#block-sportsleague-theme-content .views-row a {
+    color: #25AEBF;
+}
+#block-sportsleague-theme-content .views-row .views-field-title a:hover {
+    color: #B51546;
+}
+.fly-text a {
+    color: #fd135a;
+    text-shadow: 1px 1px 0 #b9b7b7;
+}
+.path-team-page .arrow_list li {
+    border-color: #25aebf;
+}
+.path-team-page .arrow_list li .views-field-view-taxonomy-term a {
+    background: #25aebf;
+}
+.path-team-page .arrow_list li .views-field-view-taxonomy-term a:hover {
+    background: #1f8996;
+}
+.path-contact #edit-actions #edit-preview {
+    background: #555;
+    border-color: #555;
+}
+.path-contact #edit-actions #edit-preview:hover {
+    background: #777;
+}
+#block-tickets .tickets-wrapper .article-text a {
+    color: #25aebf;
+}
+/*-----------Page Styling Ends---------------*/
+
+
+
+/*-----------Footer Styles---------------------*/
+footer .footergrid .footer_column ul li a {
+    color: #ccc;
+}
+footer .footergrid .footer_column ul li a:hover {
+    color: #fff;
+}
+.copyright a {
+    color: #25AEBF;
+}
+.footer_col .footer_column, 
+.footer_col .footer_column a {    
+    color: #0D9790;
+}
+footer .footergrid p {
+    color: #d2d0d0;
+}
+/*-----------Footer Styling Ends---------------*/

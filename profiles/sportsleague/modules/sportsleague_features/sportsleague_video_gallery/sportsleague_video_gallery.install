@@ -1,0 +1,40 @@
+<?php
+/**
+ * @file
+ * Create dummy content for videos.
+ */
+
+use \Drupal\node\Entity\Node;
+
+/**
+ * Implements hook_install().
+ */
+function sportsleague_video_gallery_install() {
+  $video_titles = array(
+    'First video',
+    'Second video',
+    'Third video',
+    'Fourth video',
+    'Fifth video',
+    'Sixth video',
+    'Seventh video',
+    'Eight video',
+  );
+
+  $videos = array('WqaX1fij62g', '5SkBZcvuuQs', 'pDmcNHkVYJc', 'ISUExOwcwwo', 'LspOEuGlZj0', 'JG2OY_7B-gI', 'WiG09nT_e-k', '1bCqzrMsSeI');
+  foreach ($video_titles as $key=> $title) {
+	
+	$vid = $videos[$key];	  
+    $node = Node::create(array(
+      'type' => 'video_gallery',
+      'title' => $title,
+      'uid' => '1',
+      'status' => 1,
+      'path' => '/' . _sportsleague_clean_url_alias($title),
+    ));
+    $node->field_video_link->input = 'https://www.youtube.com/watch?v='.$vid;
+    $node->field_video_link->video_id = $vid;
+    $node->body->value = 'Lorem Ipsum is simply book.';
+    $node->save();
+  }
+}

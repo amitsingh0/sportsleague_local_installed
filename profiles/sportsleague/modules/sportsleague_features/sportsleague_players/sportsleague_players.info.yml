@@ -1,0 +1,22 @@
+name: Players
+description: 'Provides Players content type and related configuration. Use players pages for displaying the players details.'
+type: module
+# core: 8.x
+dependencies:
+  - field
+  - file
+  - image
+  - menu_ui
+  - node
+  - path
+  - taxonomy
+  - text
+  - user
+  - views
+package: Sportsleague
+
+# Information added by Drupal.org packaging script on 2016-08-02
+version: '8.x-1.1'
+core: '8.x'
+project: 'sportsleague'
+datestamp: 1470116949

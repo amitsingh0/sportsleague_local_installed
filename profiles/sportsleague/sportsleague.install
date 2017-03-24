@@ -1,0 +1,196 @@
+<?php
+/**
+ * @file
+ * Install, update and uninstall functions for the sportsleague profile.
+ */
+
+use Drupal\user\Entity\User;
+use Drupal\user\RoleInterface;
+use Drupal\node\Entity\Node;
+use \Drupal\menu_link_content\Entity\MenuLinkContent;
+
+/**
+ * Implements hook_install().
+ *
+ * Perform actions to set up the site for this profile.
+ *
+ * @see system_install()
+ */
+function sportsleague_install() {
+  // Set front page to "home".
+  \Drupal::configFactory()->getEditable('system.site')->set('page.front', '/node/62')->save(TRUE);
+
+  // Allow visitor account creation with administrative approval.
+  $user_settings = \Drupal::configFactory()->getEditable('user.settings');
+  $user_settings->set('register', USER_REGISTER_VISITORS_ADMINISTRATIVE_APPROVAL)->save(TRUE);
+
+  // Enable default permissions for system roles.
+  user_role_grant_permissions(RoleInterface::ANONYMOUS_ID, array('access comments'));
+  user_role_grant_permissions(RoleInterface::AUTHENTICATED_ID, array(
+    'access comments',
+    'post comments',
+    'skip comment approval',
+  ));
+
+  // Assign user 1 the "administrator" role.
+  $user = User::load(1);
+  $user->roles[] = 'administrator';
+  $user->save();
+
+  user_role_grant_permissions(RoleInterface::ANONYMOUS_ID, array('access site-wide contact form'));
+  user_role_grant_permissions(RoleInterface::AUTHENTICATED_ID, array('access site-wide contact form'));
+
+  // Allow authenticated users to use shortcuts.
+  user_role_grant_permissions(RoleInterface::AUTHENTICATED_ID, array('access shortcuts'));
+
+  // Populate the default shortcut set.
+  $shortcut = entity_create('shortcut', array(
+    'shortcut_set' => 'default',
+    'title' => t('Add content'),
+    'weight' => -20,
+    'link' => array('uri' => 'internal:/node/add'),
+  ));
+  $shortcut->save();
+
+  $shortcut = entity_create('shortcut', array(
+    'shortcut_set' => 'default',
+    'title' => t('All content'),
+    'weight' => -19,
+    'link' => array('uri' => 'internal:/admin/content'),
+  ));
+  $shortcut->save();
+
+  // Allow all users to use search.
+  user_role_grant_permissions(RoleInterface::ANONYMOUS_ID, array('search content'));
+  user_role_grant_permissions(RoleInterface::AUTHENTICATED_ID, array('search content'));
+
+  // Enable the admin theme.
+  \Drupal::configFactory()->getEditable('node.settings')->set('use_admin_theme', TRUE)->save(TRUE);
+
+  // Create dummy node content.
+  $node = Node::create(array(
+    'type' => 'page',
+    'title' => 'About Us',
+    'uid' => '1',
+    'status' => 1,
+    'path' => '/' . _sportsleague_clean_url_alias('About Us'),
+  ));
+  $node->body->generateSampleItems(1);
+  $node->save();
+
+  $home = Node::create(array(
+    'type' => 'page',
+    'title' => 'Welcome to Sports League',
+    'uid' => '1',
+    'status' => 1,
+    'path' => '/' . _sportsleague_clean_url_alias('home'),
+  ));
+  $home->save();
+
+  $menu_titles = array(
+    'front' => 'Home',
+    'about-us' => 'About Us',
+    'latest-news' => 'News',
+    'blog' => 'Blog',
+    'image-gallery' => 'Image Gallery',
+    'video-gallery' => 'Video Gallery',
+    'events-schedule' => 'Events',
+    'teams' => 'Teams',
+    'contact' => 'Contact Us',
+  );
+  $weight = 0;
+  // Create menu links for footer menu.
+  foreach ($menu_titles as $link => $menu_title) {
+    MenuLinkContent::create([
+      'title'      => $menu_title,
+      'link'       => ['uri' => 'internal:/' . $link],
+      'menu_name'  => 'footer',
+      'weight'     => $weight,
+    ])->save();
+    $weight++;
+  }
+
+  // Menu links for Header Menu.
+  MenuLinkContent::create([
+    'title'      => 'Contact Us',
+    'link'       => ['uri' => 'internal:/contact'],
+    'menu_name'  => 'main',
+    'weight'     => 10,
+  ])->save();
+
+  MenuLinkContent::create([
+    'title'      => 'About Us',
+    'link'       => ['uri' => 'internal:/about-us'],
+    'menu_name'  => 'main',
+    'weight'     => 2,
+  ])->save();
+
+  // Create block for address.
+  $address_block = entity_create('block_content', array(
+    'info' => 'Contact Us',
+    'type' => 'basic',
+    'langcode' => 'en',
+    'uuid' => '8b024967-e482-42a9-9324-8369a67023ed',
+    'body' => array(
+      'value' => '<p>Phone: <a href="tel:XXXXXXXXXX">XXX-XXX-XXXX</a><br />
+      <a href="mailto:info@abc.com">info@abc.com</a><br />
+      <strong>Sports League</strong><br />
+      ABC Road Tikiri<br />
+      Gurgaon, Haryana 122016</p>',
+      'format' => 'full_html',
+    ),
+  ));
+  $address_block->save();
+  // Create block for facebook.
+  $facebook_block = entity_create('block_content', array(
+    'info' => 'Facebook Fan',
+    'type' => 'basic',
+    'langcode' => 'en',
+    'uuid' => '125df96d-f3b2-45fe-b026-d7ce4a1a01c4',
+    'body' => array(
+      'value' => '<p><iframe allowtransparency="true" frameborder="0" height="385" scrolling="no" src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2FCognizant%2F&amp;tabs=timeline&amp;width=290&amp;height=340&amp;small_header=true&amp;adapt_container_width=true&amp;hide_cover=false&amp;show_facepile=false&amp;appId=215077805217227" style="border:none;overflow:hidden" width="270"></iframe></p>',
+      'format' => 'full_html',
+    ),
+  ));
+  $facebook_block->save();
+
+  // Create block for twitter.
+  $twitter_block = entity_create('block_content', array(
+    'info' => 'Tweet Me',
+    'type' => 'basic',
+    'langcode' => 'en',
+    'uuid' => 'ae648c58-18e5-4bbe-acc0-7759d4d1e911',
+    'body' => array(
+      'value' => '<p><a class="twitter-timeline" data-dnt="true" data-widget-id="632109147043926016" href="https://twitter.com/Cognizant">Tweets by @Cognizant</a> <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?"http":"https";if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script></p>',
+      'format' => 'full_html',
+    ),
+  ));
+  $twitter_block->save();
+  // Create Tickets Block with content.
+  $tickets_block = entity_create('block_content', array(
+    'info' => 'Contact Us',
+    'type' => 'basic',
+    'langcode' => 'en',
+    'uuid' => '7b024967-e482-42a9-9324-8369a67023ed',
+    'body' => array(
+      'value' => '<div class="tickets-wrapper">
+      <div class="article-text"><span style="text-decoration: underline;"><strong>Head Office Address:</strong></span>
+      <p>Building No. 3,Unitech Realty Projects Limited,<br />
+      ,Ground, 1st &amp; 2nd floor, IT &amp; ITES village Sector - 48,<br />
+      Gurgaon, Haryana 122001<br />
+      E-mail: <a href="mailto:tickets@abc.com">tickets@abc.com</a><br />
+      <br />
+      <span style="text-decoration: underline;"><strong>Hours of Operation:</strong></span><br />
+      <strong>Season Office Hours:</strong> Mon. - Fri.: 10:00 am - 6:00 pm &amp; Sat.: 10:00 am - 2:00 pm (Sep. - April)</p>
+      <p><strong>Off Season Office Hours -</strong></p>
+      <p><strong>MAY &amp; AUGUST:</strong> Mon. - Fri.: 10:00 am - 4:00 pm (Sat or Sun Hours)</p>
+      <p><strong>JUNE &amp; JULY:</strong>&nbsp;Mon. - Thur: 10:00 am - 4:00 pm (No Fri, Sat or Sun Hours)</p>
+      <p><strong>Sunday: 2016 - 17 season - All box offices will open at 90 minutes prior to tip off on Sunday game days this season.</strong></p>
+      <div></div></div>
+      <div class="map_content"><iframe allowfullscreen="" frameborder="0" height="400" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3508.7655730159204!2d77.02851981447095!3d28.42632970013567!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390d2299943b9041%3A0x7fac18aa662cf673!2sCognizant!5e0!3m2!1sen!2sin!4v1466680230587" style="border:0" width="500"></iframe></div>
+      </div>',
+      'format' => 'full_html',
+    ),
+  ));
+  $tickets_block->save();
+}

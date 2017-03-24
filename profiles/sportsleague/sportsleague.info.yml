@@ -1,0 +1,63 @@
+name: Sports League
+type: profile
+description: 'Install with commonly used features of sports related sites.'
+# core: 8.x
+distribution:
+  name: Sports League
+  
+# Required modules
+dependencies:
+  - node
+  - history
+  - block
+  - breakpoint
+  - ckeditor
+  - color
+  - config
+  - comment
+  - contextual
+  - contact
+  - menu_link_content
+  - datetime
+  - block_content
+  - quickedit
+  - editor
+  - help
+  - image
+  - menu_ui
+  - options
+  - path
+  - page_cache
+  - dynamic_page_cache
+  - taxonomy
+  - dblog
+  - search
+  - shortcut
+  - toolbar
+  - field_ui
+  - file
+  - rdf
+  - views
+  - views_ui
+  - tour
+  - automated_cron
+  - features_ui
+  - colorbox
+  - admin_toolbar
+  - sportsleague_blog
+  - sportsleague_players
+  - sportsleague_team
+  - sportsleague_news
+  - sportsleague_video_gallery
+  - sportsleague_events
+  - sportsleague_image_gallery
+  
+themes:
+  - sportsleague_theme
+  - seven
+
+# Information added by Drupal.org packaging script on 2016-08-02
+version: '8.x-1.1'
+core: '8.x'
+project: 'sportsleague'
+datestamp: 1470116949

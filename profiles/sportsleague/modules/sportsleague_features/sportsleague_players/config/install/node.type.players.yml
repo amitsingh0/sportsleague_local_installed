@@ -1,0 +1,17 @@
+langcode: en
+status: true
+dependencies:
+  module:
+    - menu_ui
+third_party_settings:
+  menu_ui:
+    available_menus:
+      - main
+    parent: 'main:'
+name: Players
+type: players
+description: 'Use players pages for displaying the players details.'
+help: ''
+new_revision: false
+preview_mode: 1
+display_submitted: false

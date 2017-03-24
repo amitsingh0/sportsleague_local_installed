@@ -1,0 +1,29 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.teaser
+    - field.field.node.players.body
+    - field.field.node.players.field_player_main_image
+    - field.field.node.players.field_team
+    - node.type.players
+  module:
+    - text
+    - user
+id: node.players.teaser
+targetEntityType: node
+bundle: players
+mode: teaser
+content:
+  body:
+    label: hidden
+    type: text_summary_or_trimmed
+    weight: 101
+    settings:
+      trim_length: 600
+    third_party_settings: {  }
+  links:
+    weight: 100
+hidden:
+  field_player_main_image: true
+  field_team: true

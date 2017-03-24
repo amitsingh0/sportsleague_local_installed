@@ -1,0 +1,24 @@
+langcode: en
+status: true
+dependencies:
+  content:
+    - 'block_content:basic:8b024967-e482-42a9-9324-8369a67023ed'
+  module:
+    - block_content
+  theme:
+    - sportsleague_theme
+id: contactus
+theme: sportsleague_theme
+region: footer_3
+weight: null
+provider: null
+plugin: 'block_content:8b024967-e482-42a9-9324-8369a67023ed'
+settings:
+  id: 'block_content:8b024967-e482-42a9-9324-8369a67023ed'
+  label: 'Contact Us'
+  provider: block_content
+  label_display: visible
+  status: true
+  info: ''
+  view_mode: full
+visibility: {  }

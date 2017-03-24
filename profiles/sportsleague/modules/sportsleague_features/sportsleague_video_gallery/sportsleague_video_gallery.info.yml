@@ -1,0 +1,20 @@
+name: 'Video Gallery'
+description: 'Provides Video Gallery content type and related configuration. Use video pages for displaying the video pages.'
+type: module
+# core: 8.x
+dependencies:
+  - field
+  - menu_ui
+  - node
+  - path
+  - text
+  - user
+  - views
+  - youtube
+package: Sportsleague
+
+# Information added by Drupal.org packaging script on 2016-08-02
+version: '8.x-1.1'
+core: '8.x'
+project: 'sportsleague'
+datestamp: 1470116949

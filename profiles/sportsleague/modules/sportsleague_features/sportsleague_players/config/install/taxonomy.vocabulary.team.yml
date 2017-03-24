@@ -1,0 +1,8 @@
+langcode: en
+status: true
+dependencies: {  }
+name: Team
+vid: team
+description: 'List of Teams'
+hierarchy: 0
+weight: 0

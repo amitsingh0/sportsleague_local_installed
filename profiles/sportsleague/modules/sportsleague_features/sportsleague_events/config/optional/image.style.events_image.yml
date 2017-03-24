@@ -1,0 +1,13 @@
+langcode: en
+status: true
+dependencies: {  }
+name: events_image
+label: 'Events image'
+effects:
+  04d7d9c5-43e7-4168-be1b-80bb1ccc7e24:
+    uuid: 04d7d9c5-43e7-4168-be1b-80bb1ccc7e24
+    id: image_resize
+    weight: 1
+    data:
+      width: 181
+      height: 109

@@ -1,0 +1,43 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.players.body
+    - field.field.node.players.field_player_main_image
+    - field.field.node.players.field_team
+    - node.type.players
+  module:
+    - image
+    - text
+    - user
+id: node.players.default
+targetEntityType: node
+bundle: players
+mode: default
+content:
+  body:
+    label: hidden
+    type: text_default
+    weight: 2
+    settings: {  }
+    third_party_settings: {  }
+  field_player_main_image:
+    weight: 1
+    label: hidden
+    settings:
+      image_style: ''
+      image_link: ''
+    third_party_settings: {  }
+    type: image
+  field_team:
+    type: entity_reference_label
+    weight: 3
+    label: hidden
+    settings:
+      link: false
+    third_party_settings: {  }
+  links:
+    weight: 0
+    settings: {  }
+    third_party_settings: {  }
+hidden: {  }

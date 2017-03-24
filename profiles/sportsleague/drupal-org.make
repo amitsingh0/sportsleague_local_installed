@@ -1,0 +1,12 @@
+api = 2
+core = 8.x
+projects[admin_toolbar][version] = 1.15
+projects[admin_toolbar][subdir] = contrib
+projects[colorbox][version] = 1.0
+projects[colorbox][subdir] = contrib
+projects[config_update][version] = 1.1
+projects[config_update][subdir] = contrib
+projects[features][version] = 3.0-beta3
+projects[features][subdir] = contrib
+projects[youtube][version] = 1.0-beta3
+projects[youtube][subdir] = contrib

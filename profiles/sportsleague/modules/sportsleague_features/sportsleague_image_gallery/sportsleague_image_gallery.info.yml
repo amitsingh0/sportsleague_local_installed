@@ -1,0 +1,22 @@
+name: 'Image Gallery'
+description: 'Provides Image Gallery content type and related configuration. Use image gallery pages for displaying the image gallery.'
+type: module
+# core: 8.x
+dependencies:
+  - colorbox
+  - field
+  - file
+  - image
+  - menu_ui
+  - node
+  - path
+  - text
+  - user
+  - views
+package: Sportsleague
+
+# Information added by Drupal.org packaging script on 2016-08-02
+version: '8.x-1.1'
+core: '8.x'
+project: 'sportsleague'
+datestamp: 1470116949

@@ -1,0 +1,83 @@
+<?php
+/**
+ * @file
+ * Create dummy content for image gallery.
+ */
+
+use \Drupal\node\Entity\Node;
+use \Drupal\menu_link_content\Entity\MenuLinkContent;
+
+/**
+ * Implements hook_install().
+ */
+function sportsleague_image_gallery_install() {
+  $image_gallery_titles = array(
+    'Image 1',
+    'Image 2',
+    'Image 3',
+    'Image 4',
+    'Image 5',
+    'Image 6',
+    'Image 7',
+    'Image 8',
+    'Image 9',
+    'Image 10',
+    'Image 11',
+    'Image 12',
+  );
+  $gallery_images = array(
+    'player7.jpg',
+    'player4.jpg',
+    'player18.jpg',
+    'cycling.jpg',
+    'golf.jpg',
+    'player9.jpg',
+    'player15.jpg',
+    'formula1.jpg',
+    'cycling1.jpg',
+    'player1.jpg',
+    'rugby.jpg',
+    'james.jpg',
+  );
+  foreach ($image_gallery_titles as $key => $title) {
+    $output = file_get_contents(drupal_get_path('profile', 'sportsleague') . '/images/' . $gallery_images[$key]);
+    $file = file_save_data($output, 'public://' . $gallery_images[$key], FILE_EXISTS_REPLACE);
+    $node = Node::create(array(
+      'type' => 'image_gallery',
+      'title' => $title,
+      'uid' => '1',
+      'status' => 1,
+      'path' => '/' . _sportsleague_clean_url_alias($title),
+    ));
+    $node->body->value = '<p> Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>';
+    $node->body->format = 'full_html';
+    $node->field_image_gallery->setValue(array('target_id' => $file->id(), 'alt' => $title));
+    $node->save();
+  }
+  // Create photo gallery link.
+  $link = MenuLinkContent::create([
+    'title'      => 'Gallery',
+    'link'       => ['uri' => 'internal:/image-gallery'],
+    'menu_name'  => 'main',
+    'expanded'   => 1,
+    'weight'     => 7,
+  ]);
+  $link->save();
+  $menuid = $link->getPluginId();
+  // Create image gallery link.
+  MenuLinkContent::create([
+    'title'      => 'Image Gallery',
+    'link'       => ['uri' => 'internal:/image-gallery'],
+    'menu_name'  => 'main',
+    'weight'     => 0,
+    'parent'     => $menuid,
+  ])->save();
+  // Create video gallery link.
+  MenuLinkContent::create([
+    'title'      => 'Video Gallery',
+    'link'       => ['uri' => 'internal:/video-gallery'],
+    'menu_name'  => 'main',
+    'weight'     => 1,
+    'parent'     => $menuid,
+  ])->save();
+}
